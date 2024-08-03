@@ -1,0 +1,5 @@
+/build
+/docker-image
+*.o
+*.d
+main.c
