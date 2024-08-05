@@ -2,8 +2,9 @@
 #define DISPLAY
 #define WIDTH  64
 #define HEIGHT 32
-#define WINDOW_HEIGHT 256
+#define WINDOW_HEIGHT 512
 #define WINDOW_WIDTH  (2 * WINDOW_HEIGHT)
+#define GAME_TITLE    "Chip8"
 #include <stdint.h>
 #include <SDL2/SDL.h>
 
