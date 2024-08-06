@@ -35,32 +35,45 @@ Display* DisplayInit() {
     for(int i = 0; i < WIDTH; i++) {
         for(int j = 0; j < HEIGHT; j++) {
 
-            display->display[i][j] = (SDL_Rect) {
+            display->display[i][j].bounds = (SDL_Rect) {
                 .x = i * widthScalarFactor,
                 .y = j * heightScalarFactor,
                 .h = heightScalarFactor,
                 .w = widthScalarFactor
             };
+            display->display[i][j].currentState = OFF;
         }
     }
     return display;
 }
 
-void drawFrame(Display *display) {
+void drawFrame(const Display *display) {
 
     SDL_SetRenderDrawColor(
         display->renderer, 
-        255, 255, 255, 255
+        250, 165, 0, 255
     );
 
     for(int i = 0; i < WIDTH; i++) {
         for(int j = 0; j < HEIGHT; j++) {
-            SDL_RenderDrawRect(
-                display->renderer, 
-                &display->display[i][j]
-            );
+            if(display->display[i][j].currentState == ON) {
+                SDL_RenderFillRect(
+                    display->renderer, 
+                    &display->display[i][j].bounds
+                );
+            }
         }
     }
     SDL_RenderPresent(display->renderer);
+}
+
+void drawSprite(Display *display, const uint8_t x, const uint8_t y, const uint8_t sprite) {
+
+    uint8_t yNew = y % HEIGHT;
+    for(int i = 0; i < 8; i++) {
+        uint8_t xNew = (x + i) % WIDTH;
+        display->display[xNew][yNew].currentState ^= (sprite >> i) & 0x1;
+    }
+
 }
 
